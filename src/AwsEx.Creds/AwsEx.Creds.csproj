@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <DefineConstants Condition="'$(TargetFramework)' == 'net45'">$(DefineConstants);BCL;BCL45</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.Core" Version="3.5.1.56" />
+  </ItemGroup>
+
+</Project>
