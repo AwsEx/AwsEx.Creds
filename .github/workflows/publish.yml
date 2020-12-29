@@ -1,0 +1,23 @@
+name: Nuget Package and Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+    - name: Pack with dotnet
+      run: dotnet pack AwsEx.Creds.sln --output nuget-packages --configuration Release --include-source -p:Version="3.5.1.$Env:GITHUB_RUN_NUMBER"
+    - name: Push with dotnet
+      run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }} -s "https://api.nuget.org/v3/index.json" "**/*.nupkg"
+      working-directory: nuget-packages
